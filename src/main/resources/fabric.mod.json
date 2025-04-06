@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "angledparticles",
+  "version": "${version}",
+  "name": "Angled Particles",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/angledparticles/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.rabidsharkgames.angledparticles.client.AngledparticlesClient"
+    ],
+    "main": [
+      "com.rabidsharkgames.angledparticles.Angledparticles"
+    ]
+  },
+  "mixins": [
+    "angledparticles.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
