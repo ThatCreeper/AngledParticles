@@ -6,37 +6,32 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.util.Mth;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SingleQuadParticle.class)
-public abstract class SingleQuadParticleMixin extends Particle  {
-
-	@Shadow protected abstract void renderRotatedQuad(VertexConsumer vertexConsumer, Camera camera, Quaternionf quaternionf, float f);
-
-	@Shadow public abstract SingleQuadParticle.FacingCameraMode getFacingCameraMode();
+public abstract class SingleQuadParticleMixin extends Particle {
+	@Unique
+	private static final Vector3f pos = new Vector3f();
 
 	protected SingleQuadParticleMixin(ClientLevel clientLevel, double d, double e, double f) {
 		super(clientLevel, d, e, f);
 	}
 
-	@Inject(method="render", at=@At("HEAD"), cancellable = true)
+	@Inject(method = "render", at = @At("HEAD"))
 	private void render(VertexConsumer vertexConsumer, Camera camera, float f, CallbackInfo ci) {
-		if (this.getFacingCameraMode() != SingleQuadParticle.FacingCameraMode.LOOKAT_XYZ)
-			return;
+		pos.set(x, y, z);
+	}
 
-		Rotator.quatLookAtCamera(camera, x, y, z);
-		if (this.roll != 0.0F) {
-			Rotator.quaternion.rotateZ(Mth.lerp(f, this.oRoll, this.roll));
-		}
-
-		this.renderRotatedQuad(vertexConsumer, camera, Rotator.quaternion, f);
-
-		ci.cancel();
+	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;rotation()Lorg/joml/Quaternionf;"))
+	private Quaternionf cameraRotation(Camera instance) {
+		Rotator.quatLookAtCamera(instance, pos.x, pos.y, pos.z);
+		return Rotator.quaternion;
 	}
 }

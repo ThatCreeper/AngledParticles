@@ -11,9 +11,9 @@ public class Rotator {
 
 	public static void quatLookAtCamera(Camera camera, double x, double y, double z) {
 		double xzDist = Mth.length(camera.getPosition().z - z, camera.getPosition().x - x);
-		float xang = -(float)Mth.atan2(camera.getPosition().y - y, xzDist);
+		float xang = (float)Mth.atan2(camera.getPosition().y - y, xzDist);
 		quaternion.identity();
-		quaternion.rotateY((float) Mth.atan2(camera.getPosition().x - x, camera.getPosition().z - z));
+		quaternion.rotateY(Mth.PI + (float) Mth.atan2(camera.getPosition().x - x, camera.getPosition().z - z));
 		quaternion.rotateX(xang);
 	}
 
