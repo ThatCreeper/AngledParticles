@@ -32,10 +32,10 @@ public abstract class SingleQuadParticleMixin extends Particle  {
 
 		Rotator.quatLookAtCamera(camera, x, y, z);
 		if (this.roll != 0.0F) {
-			Rotator.quaternion.rotateZ(Mth.lerp(f, this.oRoll, this.roll));
+			Rotator.quaternion().rotateZ(Mth.lerp(f, this.oRoll, this.roll));
 		}
 
-		this.renderRotatedQuad(vertexConsumer, camera, Rotator.quaternion, f);
+		this.renderRotatedQuad(vertexConsumer, camera, Rotator.quaternion(), f);
 
 		ci.cancel();
 	}
