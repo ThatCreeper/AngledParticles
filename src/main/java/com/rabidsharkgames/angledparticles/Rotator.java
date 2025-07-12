@@ -7,18 +7,31 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class Rotator {
-	public static final Quaternionf quaternion = new Quaternionf();
+	// This is a thread-local for compatibility with AsyncParticles.
+	private static final ThreadLocal<Quaternionf> staticQuaternion = new ThreadLocalQuaterion();
+
+	public static Quaternionf quaternion() {
+		return staticQuaternion.get();
+	}
 
 	public static void quatLookAtCamera(Camera camera, double x, double y, double z) {
 		double xzDist = Mth.length(camera.getPosition().z - z, camera.getPosition().x - x);
 		float xang = (float)Mth.atan2(camera.getPosition().y - y, xzDist);
-		quaternion.identity();
-		quaternion.rotateY(Mth.PI + (float) Mth.atan2(camera.getPosition().x - x, camera.getPosition().z - z));
-		quaternion.rotateX(xang);
+		Quaternionf quat = quaternion();
+		quat.identity();
+		quat.rotateY(Mth.PI + (float) Mth.atan2(camera.getPosition().x - x, camera.getPosition().z - z));
+		quat.rotateX(xang);
 	}
 
 	public static Quaternionf getCameraLookerMat(EntityRenderDispatcher instance, Vector3f pos) {
 		Rotator.quatLookAtCamera(instance.camera, pos.x, pos.y, pos.z);
-		return quaternion;
+		return quaternion();
+	}
+
+	private static class ThreadLocalQuaterion extends ThreadLocal<Quaternionf> {
+		@Override
+		protected Quaternionf initialValue() {
+			return new Quaternionf();
+		}
 	}
 }

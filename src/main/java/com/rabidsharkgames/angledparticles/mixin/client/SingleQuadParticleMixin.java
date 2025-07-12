@@ -32,6 +32,6 @@ public abstract class SingleQuadParticleMixin extends Particle {
 	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;rotation()Lorg/joml/Quaternionf;"))
 	private Quaternionf cameraRotation(Camera instance) {
 		Rotator.quatLookAtCamera(instance, pos.x, pos.y, pos.z);
-		return Rotator.quaternion;
+		return Rotator.quaternion();
 	}
 }
