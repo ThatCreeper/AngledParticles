@@ -1,8 +1,7 @@
 package com.rabidsharkgames.angledparticles;
 
-import net.minecraft.client.Camera;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -14,17 +13,21 @@ public class Rotator {
 		return staticQuaternion.get();
 	}
 
-	public static void quatLookAtCamera(Camera camera, double x, double y, double z) {
-		double xzDist = Mth.length(camera.getPosition().z - z, camera.getPosition().x - x);
-		float xang = -(float)Mth.atan2(camera.getPosition().y - y, xzDist);
+	public static void quatLookAtCamera(double camX, double camY, double camZ, double x, double y, double z) {
+		double xzDist = Mth.length(camZ - z, camX - x);
+		float xang = -(float)Mth.atan2(camY - y, xzDist);
 		Quaternionf quat = quaternion();
 		quat.identity();
-		quat.rotateY((float) Mth.atan2(camera.getPosition().x - x, camera.getPosition().z - z));
+		quat.rotateY((float) Mth.atan2(camX - x, camZ - z));
 		quat.rotateX(xang);
 	}
 
-	public static Quaternionf getCameraLookerMat(EntityRenderDispatcher instance, Vector3f pos) {
-		Rotator.quatLookAtCamera(instance.camera, pos.x, pos.y, pos.z);
+	public static void quatLookAtCamera(Vec3 position, double x, double y, double z) {
+		quatLookAtCamera(position.x, position.y, position.z, x, y, z);
+	}
+
+	public static Quaternionf getCameraRelativeLookerMat(Vector3f pos) {
+		Rotator.quatLookAtCamera(0, 0, 0, pos.x, pos.y, pos.z);
 		return quaternion();
 	}
 
