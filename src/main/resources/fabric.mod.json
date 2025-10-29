@@ -3,7 +3,7 @@
   "id": "angledparticles",
   "version": "${version}",
   "name": "Angled Particles",
-  "description": "",
+  "description": "Bedrock-style particle (and nametag) rotation",
   "authors": ["creeper_host"],
   "contact": {},
   "license": "MIT",
