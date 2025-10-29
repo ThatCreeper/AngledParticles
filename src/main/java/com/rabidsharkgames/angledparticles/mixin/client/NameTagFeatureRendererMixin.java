@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class NameTagFeatureRendererMixin {
 	@Inject(method = "add", at = @At(value = "HEAD"))
 	private void renderNameTag(PoseStack poseStack, Vec3 vec3, int i, Component component, boolean bl, int j, double d, CameraRenderState cameraRenderState, CallbackInfo ci) {
+		if (vec3 == null) return;
 		Angledparticles.pos().add((float)vec3.x, (float)vec3.y + 0.5f, (float)vec3.z);
 	}
 	@Redirect(method = "add", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;mulPose(Lorg/joml/Quaternionfc;)V"))
