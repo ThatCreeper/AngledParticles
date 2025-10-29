@@ -5,7 +5,11 @@
   "name": "Angled Particles",
   "description": "Bedrock-style particle (and nametag) rotation",
   "authors": ["creeper_host"],
-  "contact": {},
+  "contact": {
+    "homepage": "https://modrinth.com/mod/angled-particles",
+    "issues": "https://github.com/ThatCreeper/AngledParticles/issues",
+    "sources": "https://github.com/ThatCreeper/AngledParticles"
+  },
   "license": "MIT",
   "icon": "assets/angledparticles/icon.png",
   "environment": "client",
@@ -27,6 +31,7 @@
   "custom": {
     "modmenu": {
       "links": {
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/angled-particles",
         "modmenu.modrinth": "https://modrinth.com/mod/angled-particles"
       }
     }
