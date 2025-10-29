@@ -27,7 +27,6 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.github_releases": "https://github.com/ThatCreeper/AngledParticles/releases",
         "modmenu.modrinth": "https://modrinth.com/mod/angled-particles"
       }
     }
