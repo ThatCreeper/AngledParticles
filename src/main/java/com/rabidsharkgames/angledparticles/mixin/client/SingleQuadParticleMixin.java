@@ -34,7 +34,7 @@ public abstract class SingleQuadParticleMixin extends Particle  {
 		if (this.getFacingCameraMode() != SingleQuadParticle.FacingCameraMode.LOOKAT_XYZ)
 			return;
 
-		Rotator.quatLookAtCamera(camera.getPosition(), x, y, z);
+		Rotator.quatLookAtCamera(camera.position(), x, y, z);
 		if (this.roll != 0.0F) {
 			Rotator.quaternion().rotateZ(Mth.lerp(f, this.oRoll, this.roll));
 		}
